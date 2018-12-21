@@ -41,6 +41,6 @@
      - `force2 <arg>` do a shell command without an output(mkdir, start...)
      - `quit` quit the session
      # 
-++If you want to compile the client into an executable use pyinstaller ;)
+**If you want to compile the client into an executable use pyinstaller ;)**
      
      [![PythonV](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/download/releases/2.7/)
