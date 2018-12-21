@@ -16,7 +16,7 @@
  - Can run the client at startup
  - Can browse files & more...
  
-### Usage`
+### Usage
  - #### Server commands
    - **Commands in the winshell menu**
      - `list client` list all clients connected on the server
