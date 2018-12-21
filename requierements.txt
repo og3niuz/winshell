@@ -1,5 +1,4 @@
 psutil
 mss
 opencv-python
-pypiwin32
 colorama
