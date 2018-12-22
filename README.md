@@ -46,5 +46,5 @@
      - `quit` quit the session
      # 
 ***If you want to compile the client into an executable use pyinstaller ;)**
-     
+****
 [![PythonV](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/download/releases/2.7/)
