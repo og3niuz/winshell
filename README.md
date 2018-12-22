@@ -17,6 +17,10 @@
  - Can browse files & more...
  
 ### Usage
+ - #### Client file
+   - Change the line : host = "localhost"
+   - And change the line : port = 4444
+
  - #### Server commands
    - **Commands in the winshell menu**
      - `list client` list all clients connected on the server
